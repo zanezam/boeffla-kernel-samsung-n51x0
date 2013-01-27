@@ -2162,3 +2162,9 @@ config PM_DEBUG_WAKEUP_RESET
 	bool "Log the Power Management debug information"
 	help
 	  This configuratoin is only for debugging the PM interrupt issue.
+
+config CHARGE_LEVEL
+	bool "Charge level interface"
+	default y
+	help
+	  Allows configuration of ac and usb charging levels
