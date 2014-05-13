@@ -207,14 +207,9 @@ static long madvise_remove(struct vm_area_struct *vma,
 
 	f = vma->vm_file;
 
-<<<<<<< HEAD
-	if (!f || !f->f_mapping || !f->f_mapping->host)
-		return -EINVAL;
-=======
 	if (!f || !f->f_mapping || !f->f_mapping->host) {
 			return -EINVAL;
 	}
->>>>>>> v3.0.38
 
 	if ((vma->vm_flags & (VM_SHARED|VM_WRITE)) != (VM_SHARED|VM_WRITE))
 		return -EACCES;
@@ -227,17 +222,10 @@ static long madvise_remove(struct vm_area_struct *vma,
 			+ ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
 
 	/*
-<<<<<<< HEAD
-	 * vmtruncate_range may need to take i_mutex.  We need to
-	 * explicitly grab a reference because the vma (and hence the
-	 * vma's reference to the file) can go away as soon as we drop
-	 * mmap_sem.
-=======
 	 * vmtruncate_range may need to take i_mutex and i_alloc_sem.
 	 * We need to explicitly grab a reference because the vma (and
 	 * hence the vma's reference to the file) can go away as soon as
 	 * we drop mmap_sem.
->>>>>>> v3.0.38
 	 */
 	get_file(f);
 	up_read(&current->mm->mmap_sem);
