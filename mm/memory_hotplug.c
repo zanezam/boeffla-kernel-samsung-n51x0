@@ -748,15 +748,11 @@ do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
 		/* this function returns # of failed pages */
 #ifndef CONFIG_DMA_CMA
 		ret = migrate_pages(&source, hotremove_migrate_alloc, 0,
-<<<<<<< HEAD
-								true, true);
+							false, MIGRATE_SYNC);
 #else
 		ret = migrate_pages(&source, hotremove_migrate_alloc, 0,
-								true, true, 0);
+							false, MIGRATE_SYNC, 0);
 #endif
-=======
-							true, MIGRATE_SYNC);
->>>>>>> v3.0.39
 		if (ret)
 			putback_lru_pages(&source);
 	}
