@@ -1381,7 +1381,6 @@ fb_mmap(struct file *file, struct vm_area_struct * vma)
 	 * Ugh. This can be either the frame buffer mapping, or
 	 * if pgoff points past it, the mmio mapping.
 	 */
-<<<<<<< HEAD
 
 	start = info->fix.smem_start;
 	len = info->fix.smem_len;
@@ -1395,10 +1394,6 @@ fb_mmap(struct file *file, struct vm_area_struct * vma)
 		return -EINVAL;
 	}
 #endif
-=======
-	start = info->fix.smem_start;
-	len = info->fix.smem_len;
->>>>>>> v3.0.101
 	mmio_pgoff = PAGE_ALIGN((start & ~PAGE_MASK) + len) >> PAGE_SHIFT;
 	if (vma->vm_pgoff >= mmio_pgoff) {
 		vma->vm_pgoff -= mmio_pgoff;
