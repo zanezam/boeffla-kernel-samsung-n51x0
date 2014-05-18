@@ -134,7 +134,9 @@ static void return_serial(struct usb_serial *serial)
 {
 	int i;
 
-	dbg("%s", __func__);
+	dev_info(&serial->interface->dev, "%s, ports : %d, minor : %d",
+			__func__, serial->num_ports, serial->minor);
+
 
 	mutex_lock(&table_lock);
 	for (i = 0; i < serial->num_ports; ++i)
@@ -150,7 +152,9 @@ static void destroy_serial(struct kref *kref)
 
 	serial = to_usb_serial(kref);
 
-	dbg("%s - %s", __func__, serial->type->description);
+	dev_info(&serial->interface->dev, "%s - %s", __func__,
+			serial->type->description);
+
 
 	/* return the minor range that this device had */
 	if (serial->minor != SERIAL_TTY_NO_MINOR)
@@ -355,9 +359,10 @@ static int serial_write(struct tty_struct *tty, const unsigned char *buf,
 
 	if (port->serial->dev->state == USB_STATE_NOTATTACHED)
 		goto exit;
-
-	dbg("%s - port %d, %d byte(s)", __func__, port->number, count);
-
+#ifdef CONFIG_MACH_M0
+	printk(KERN_INFO "%s - port %d, %d byte(s)",
+			__func__, port->number, count);
+#endif
 	/* pass on to the driver specific version of this function */
 	retval = port->serial->type->write(tty, port, buf, count);
 
@@ -1113,6 +1118,13 @@ void usb_serial_disconnect(struct usb_interface *interface)
 	struct device *dev = &interface->dev;
 	struct usb_serial_port *port;
 
+#ifdef CONFIG_HSIC_EURONLY_APPLY
+	if (!serial) {
+		pr_info("%s: serial is null\n", __func__);
+		return;
+	}
+#endif
+
 	usb_serial_console_disconnect(serial);
 	dbg("%s", __func__);
 
@@ -1145,7 +1157,8 @@ void usb_serial_disconnect(struct usb_interface *interface)
 					rc = device_bind_driver(&port->dev);
 				}
 				port->dev_state = PORT_UNREGISTERING;
-				device_del(&port->dev);
+				if (&port->dev)
+					device_del(&port->dev);
 				port->dev_state = PORT_UNREGISTERED;
 			}
 		}
@@ -1155,6 +1168,14 @@ void usb_serial_disconnect(struct usb_interface *interface)
 	/* let the last holder of this object cause it to be cleaned up */
 	usb_serial_put(serial);
 	dev_info(dev, "device disconnected\n");
+
+#ifdef CONFIG_HSIC_EURONLY_APPLY
+	msleep(300);
+	for(i = 0; serial_table[i]; i++) {
+		dev_info(dev, "device disconnected, %d, i : %d\n", __LINE__, i);
+		destroy_serial(&serial->kref);
+	}
+#endif
 }
 EXPORT_SYMBOL_GPL(usb_serial_disconnect);
 
