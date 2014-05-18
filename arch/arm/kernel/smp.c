@@ -481,6 +481,7 @@ asmlinkage void __exception_irq_entry do_local_timer(struct pt_regs *regs)
 
 	if (local_timer_ack()) {
 		__inc_irq_stat(cpu, local_timer_irqs);
+<<<<<<< HEAD
 		sec_debug_irq_log(0, do_local_timer, 1);
 		irq_enter();
 		ipi_timer();
@@ -488,6 +489,12 @@ asmlinkage void __exception_irq_entry do_local_timer(struct pt_regs *regs)
 		sec_debug_irq_log(0, do_local_timer, 2);
 	} else
 		sec_debug_irq_log(0, do_local_timer, 3);
+=======
+		irq_enter();
+		ipi_timer();
+		irq_exit();
+	}
+>>>>>>> v3.0.38
 
 	set_irq_regs(old_regs);
 }
@@ -678,10 +685,13 @@ asmlinkage void __exception_irq_entry do_IPI(int ipinr, struct pt_regs *regs)
 		irq_enter();
 		ipi_cpu_stop(cpu);
 		irq_exit();
+<<<<<<< HEAD
 		break;
 
 	case IPI_CPU_BACKTRACE:
 		ipi_cpu_backtrace(cpu, regs);
+=======
+>>>>>>> v3.0.38
 		break;
 
 	default:
