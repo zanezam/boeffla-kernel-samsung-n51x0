@@ -1,0 +1,25 @@
+From 9dbef932e8cb58bc07d6b6a69f00195013100785 Mon Sep 17 00:00:00 2001
+From: ZaneZam <cyxman@yahoo.com>
+Date: Sat, 17 May 2014 19:46:30 +0200
+Subject: [PATCH] default.prop patch
+
+---
+ default.prop | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/default.prop b/default.prop
+index 7251dfc..c95d82e 100644
+--- a/default.prop
++++ b/default.prop
+@@ -1,7 +1,7 @@
+ #
+ # ADDITIONAL_DEFAULT_PROPERTIES
+ #
+-ro.secure=1
++ro.secure=0
+ ro.allow.mock.location=0
+ ro.debuggable=0
+ ro.adb.secure=1
+-- 
+1.8.4.5
+
