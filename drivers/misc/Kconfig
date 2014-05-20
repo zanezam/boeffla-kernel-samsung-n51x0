@@ -701,4 +701,17 @@ config SLP_PROCESS_MON
 	  Providing monitoring important processes. Users can register the process
 	  with sysfs.
 
+config GPU_VOLTAGE_CONTROL
+	tristate "Enable GPU voltage control interface"
+	depends on MALI_400MP_UMP
+	default y
+	help
+	  This enables a sysfs interface to control gpu voltage.
+
+config GPU_CLOCK_CONTROL
+	tristate "Enable GPU clock control interface"
+	depends on MALI_400MP_UMP
+	default y
+	help
+	  This enables a sysfs interface to control gpu clock.
 endif # MISC_DEVICES

@@ -89,3 +89,7 @@ obj-$(CONFIG_MACH_M0_CTC)   += cw_tty.o
 # Secure OS Mobicore Interface
 obj-$(CONFIG_MOBICORE_SUPPORT)  += tzic.o
 obj-$(CONFIG_MOBICORE_DRIVER)  += tzic.o
+
+# GPU Clock/Voltage control
+obj-$(CONFIG_GPU_CLOCK_CONTROL)		+= gpu_clock_control.o
+obj-$(CONFIG_GPU_VOLTAGE_CONTROL)	+= gpu_voltage_control.o
