@@ -19,8 +19,8 @@
 #include <linux/miscdevice.h>
 #include <linux/kallsyms.h>
 
-#define MIN_VOLTAGE_GPU  600000
-#define MAX_VOLTAGE_GPU 1200000
+#define MIN_VOLTAGE_GPU  500000
+#define MAX_VOLTAGE_GPU 1300000
 
 typedef struct mali_dvfs_tableTag{
     unsigned int clock;
