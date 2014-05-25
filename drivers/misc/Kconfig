@@ -714,4 +714,10 @@ config GPU_CLOCK_CONTROL
 	default y
 	help
 	  This enables a sysfs interface to control gpu clock.
+
+config TOUCH_WAKE
+	bool "Support for Touch Wake"
+	default y
+	help
+		Say Y here to enable Touch Wake
 endif # MISC_DEVICES

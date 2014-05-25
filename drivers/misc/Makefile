@@ -93,3 +93,6 @@ obj-$(CONFIG_MOBICORE_DRIVER)  += tzic.o
 # GPU Clock/Voltage control
 obj-$(CONFIG_GPU_CLOCK_CONTROL)		+= gpu_clock_control.o
 obj-$(CONFIG_GPU_VOLTAGE_CONTROL)	+= gpu_voltage_control.o
+
+# Touchwake
+obj-$(CONFIG_TOUCH_WAKE)        += touch_wake.o
