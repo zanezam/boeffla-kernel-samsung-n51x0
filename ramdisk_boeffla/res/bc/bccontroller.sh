@@ -1,6 +1,6 @@
 # Boeffla-Config controller interface
 #
-# Version: n5110 2.2 alpha1, no charging interface
+# Version: n5110 by ZaneZam (no UMS and notification led functionality, 19 CPU freq/voltages, touch to wake support active)
 #
 # (C) andip71
 
@@ -189,7 +189,7 @@ fi
 
 if [ "conf_gpu_volt" == "$1" ]; then
 	if [ "No undervolting" == "$2" ]; then
-		echo "0;0;0;0;0"
+		echo "0;0;0;0"
 	fi
 	if [ "undervolt -25mV" == "$2" ]; then
 		echo "-25000;-25000;-25000;-25000"
@@ -229,7 +229,7 @@ fi
 
 if [ "conf_cpu_volt" == "$1" ]; then
 	if [ "No undervolting" == "$2" ]; then
-		echo "0;0;0;0;0;0;0;0;0;0;0;0;0;0;0"
+		echo "0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0"
 	fi
 	if [ "undervolt -25mV" == "$2" ]; then
 		echo "-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25;-25"
@@ -325,17 +325,14 @@ if [ "param_gpu_uv" == "$1" ]; then
 	exit 0
 fi
 
+# disabled for n5110 version as this device has no notification led
 if [ "param_led" == "$1" ]; then
-	# LED speed min/max/steps
-#	echo "1;5;1;"
-	# LED brightness min/max/steps
-#	echo "5;130;5"
 	exit 0
 fi
 
 if [ "param_touchwake" == "$1" ]; then
 	# Touchwake min/max/steps
-#	echo "0;600000;5000"
+	echo "0;600000;5000"
 	exit 0
 fi
 
@@ -353,11 +350,11 @@ fi
 
 if [ "param_charge_rates" == "$1" ]; then
 	# AC charge min/max/steps
-#	echo "100;1600;25;"
+	echo "100;1600;25;"
 	# USB charge min/max/steps
-#	echo "0;1600;25;"
+	echo "0;1600;25;"
 	# Wireless charge min/max/steps
-#	echo "100;1000;25"
+	echo "100;1000;25"
 	exit 0
 fi
 
@@ -378,7 +375,7 @@ if [ "get_ums" == "$1" ]; then
 	#else
 	#	echo "0"
 	#fi
-	echo ""
+	#echo ""
 	exit 0
 fi
 
@@ -1119,17 +1116,17 @@ if [ "apply_ntfs" == "$1" ]; then
 fi
 
 if [ "apply_ums" == "$1" ]; then
-	if [ "1" == "$2" ]; then
-		umount -l /mnt/extSdCard/
-		/system/bin/setprop persist.sys.usb.config mass_storage,adb
-		echo /dev/block/vold/179:49 > /sys/devices/platform/s3c-usbgadget/gadget/lun0/file
-	fi
+	#if [ "1" == "$2" ]; then
+	#	umount -l /mnt/extSdCard/
+	#	/system/bin/setprop persist.sys.usb.config mass_storage,adb
+	#	echo /dev/block/vold/179:49 > /sys/devices/platform/s3c-usbgadget/gadget/lun0/file
+	#fi
 
-	if [ "0" == "$2" ]; then
-		echo "" > /sys/devices/platform/s3c-usbgadget/gadget/lun0/file
-		/system/bin/vold
-		/system/bin/setprop persist.sys.usb.config mtp,adb
-	fi
+	#if [ "0" == "$2" ]; then
+	#	echo "" > /sys/devices/platform/s3c-usbgadget/gadget/lun0/file
+	#	/system/bin/vold
+	#	/system/bin/setprop persist.sys.usb.config mtp,adb
+	#fi
 	exit 0
 fi
 
@@ -1325,18 +1322,6 @@ if [ "action_debug_info_file" == "$1" ]; then
 
 	echo -e "\n**** Sharpness fix:\n" >> $2
 	cat /sys/class/misc/mdnie_preset/mdnie_preset >> $2
-
-	echo -e "\n**** LED fading:\n" >> $2
-	cat /sys/class/sec/led/led_fade >> $2
-
-	echo -e "\n**** LED intensity:\n" >> $2
-	cat /sys/class/sec/led/led_intensity >> $2
-
-	echo -e "\n**** LED speed:\n" >> $2
-	cat /sys/class/sec/led/led_speed >> $2
-
-	echo -e "\n**** LED slope:\n" >> $2
-	cat /sys/class/sec/led/led_slope >> $2
 
 	echo -e "\n**** zRam disk size:\n" >> $2
 	cat /sys/block/zram0/disksize >> $2
