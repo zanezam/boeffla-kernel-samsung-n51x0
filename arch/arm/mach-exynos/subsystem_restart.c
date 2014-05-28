@@ -227,13 +227,13 @@ int subsystem_restart(const char *subsys_name)
 	}
 
 	subsys->ongoing = true;
-
+#if defined(SUBSYS_RESTART_DEBUG)
 	/* check debug level */
 	if (!sec_debug_level.uint_val) {
 		/* debug level is low, set mdm_dump to Zero */
 		mdm_dump = 0;
 	}
-
+#endif
 	data = kzalloc(sizeof(struct restart_wq_data), GFP_KERNEL);
 	if (!data) {
 		pr_warn("Failed to alloc restart data. Resetting.\n");
