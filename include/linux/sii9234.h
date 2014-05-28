@@ -53,12 +53,7 @@ struct sii9234_platform_data {
 #endif
 };
 
-#ifdef CONFIG_MHL_SII8246_VE
-extern u8 sii9234_mhl_onoff_ex(bool onoff);
-#else
 extern u8 mhl_onoff_ex(bool onoff);
-#endif
-
 #endif
 
 #if defined(__MHL_NEW_CBUS_MSC_CMD__)

@@ -379,6 +379,7 @@
 
 #define VBUS_NONE			0
 #define VBUS_USB			1
+//#define  __MHL_NEW_CBUS_MSC_CMD__
 
 #ifdef __MHL_NEW_CBUS_MSC_CMD__
 #	define SS_MHL_DONGLE_DEV_ID		0x1134

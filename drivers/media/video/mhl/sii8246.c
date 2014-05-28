@@ -782,7 +782,7 @@ static int sii8246_cbus_init(struct sii8246_data *sii8246)
 	if (ret < 0)
 		goto i2c_error_exit;
 	/*only RGB fmt*/
-	ret = cbus_write_reg(sii8246, 0x80 + DEVCAP_VID_LINK_MODE, 0x01);
+	ret = cbus_write_reg(sii8246, 0x80 + DEVCAP_VID_LINK_MODE, 0x03);
 	if (ret < 0)
 		goto i2c_error_exit;
 #ifdef CONFIG_VIDEO_TVOUT_5_1CH_AUDIO
@@ -1884,6 +1884,11 @@ void sii8246_process_msc_work(struct work_struct *work)
 						    struct sii8246_data,
 						    msc_work);
 
+		if (sii8246->cbus_abort == true) {
+			sii8246->cbus_abort = false;
+			pr_debug(KERN_INFO "%s() : sii8246->cbus_abort = %d\n", __func__, sii8246->cbus_abort);
+			msleep(2000);
+		}
 	sii8246_cbus_mutex_lock(&sii8246->cbus_lock);
 	sii8246_mutex_lock(&sii8246->lock);
 	pr_debug("MHL %s\n",__func__);
@@ -1893,11 +1898,6 @@ void sii8246_process_msc_work(struct work_struct *work)
 	list_for_each_entry_safe(p_msc_pkt, scratch,
 				 &sii8246_g_msc_packet_list, p_msc_packet_list) {
 				 
-		if (sii8246->cbus_abort == true) {
-			sii8246->cbus_abort = false;
-			printk(KERN_INFO "%s() : sii8246->cbus_abort = %d\n", __func__, sii8246->cbus_abort);
-			msleep(2000);
-		}
 
 		pr_debug("[MSC] %s() command(0x%x), offset(0x%x), "
 				"data_1(0x%x), data_2(0x%x)\n",
@@ -3600,11 +3600,10 @@ static irqreturn_t sii8246_irq_thread(int irq, void *data)
   			/* Enable TMDS */
   			sii8246_tmds_control(sii8246, true);
   			/*turn on&off hpd festure for only QCT HDMI */  
-      }
-      else{
-        sii8246->mhl_status_value.sink_hpd = false;
-        /* Disable TMDS */
-        sii8246_tmds_control(sii8246, false);
+			} else {
+					sii8246->mhl_status_value.sink_hpd = false;
+					/* Disable TMDS */
+					sii8246_tmds_control(sii8246, false);
       }
     }
 
@@ -3978,6 +3977,10 @@ static void sii8246_late_resume(struct early_suspend *early_sus)
 	sii8246_mutex_lock(&sii8246->lock);
 	sii8246->suspend_state = false;
 	sii8246_mutex_unlock(&sii8246->lock);
+
+	sii8246_mhl_onoff_ex(false);
+	sii8246_mhl_onoff_ex(true);
+
 }
 #endif
 
