@@ -1,6 +1,6 @@
 # Boeffla-Config controller interface
 #
-# Version: n5110 by ZaneZam (no UMS and notification led functionality, 19 CPU freq/voltages, touch to wake support active)
+# Version: n5100 by ZaneZam (no UMS and notification led functionality, 19 CPU freq/voltages, touch to wake support active)
 #
 # (C) andip71
 
@@ -9,7 +9,7 @@
 # ********************************
 
 # kernel specification (hardware; type; target; url)
-KERNEL_SPECS="n5110;samsung;jb42;http://boeffla.df-kunde.de/n5110/boeffla-kernel/"
+KERNEL_SPECS="n5100;samsung;jb42;http://boeffla.df-kunde.de/n5100/boeffla-kernel/"
 
 # kernel features 
 # (1=enable-busybox,2=enable-frandom,3=wipe-cache)
@@ -325,7 +325,7 @@ if [ "param_gpu_uv" == "$1" ]; then
 	exit 0
 fi
 
-# disabled for n5110 version as this device has no notification led
+# disabled for n5100 version as this device has no notification led
 if [ "param_led" == "$1" ]; then
 	exit 0
 fi
