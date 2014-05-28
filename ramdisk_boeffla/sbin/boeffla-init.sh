@@ -1,6 +1,6 @@
 #!/system/bin/sh
 #
-# n5110 version
+# n5120 version
 #
 
 # define basic kernel configuration
