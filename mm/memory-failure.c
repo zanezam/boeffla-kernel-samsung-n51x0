@@ -1477,15 +1477,11 @@ int soft_offline_page(struct page *page, int flags)
 		list_add(&page->lru, &pagelist);
 #ifndef CONFIG_DMA_CMA
 		ret = migrate_pages(&pagelist, new_page, MPOL_MF_MOVE_ALL,
-<<<<<<< HEAD
 								false, MIGRATE_SYNC);
 #else
 		ret = migrate_pages(&pagelist, new_page, MPOL_MF_MOVE_ALL,
 								false, MIGRATE_SYNC, 0);
 #endif
-=======
-							false, MIGRATE_SYNC);
->>>>>>> v3.0.101
 		if (ret) {
 			putback_lru_pages(&pagelist);
 			pr_info("soft offline: %#lx: migration failed %d, type %lx\n",

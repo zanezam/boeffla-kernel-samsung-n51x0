@@ -382,11 +382,8 @@ void kernel_restart_prepare(char *cmd)
 void kernel_restart(char *cmd)
 {
 	kernel_restart_prepare(cmd);
-<<<<<<< HEAD
 	if (pm_power_off_prepare)
 		pm_power_off_prepare();
-=======
->>>>>>> v3.0.101
 	disable_nonboot_cpus();
 	syscore_shutdown();
 	if (!cmd)
