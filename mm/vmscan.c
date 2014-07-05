@@ -760,18 +760,8 @@ static enum page_references page_check_references(struct page *page,
 		 */
 		SetPageReferenced(page);
 
-<<<<<<< HEAD
 #ifndef CONFIG_DMA_CMA
 		if (referenced_page)
-=======
-		if (referenced_page || referenced_ptes > 1)
-			return PAGEREF_ACTIVATE;
-
-		/*
-		 * Activate file-backed executable pages after first usage.
-		 */
-		if (vm_flags & VM_EXEC)
->>>>>>> v3.0.39
 			return PAGEREF_ACTIVATE;
 #else
 		if (referenced_page || referenced_ptes > 1)
@@ -1598,7 +1588,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct zone *zone,
 	spin_lock_irq(&zone->lru_lock);
 
 	if (scanning_global_lru(sc)) {
-<<<<<<< HEAD
 		nr_taken = isolate_pages_global(nr_to_scan,
 			&page_list, &nr_scanned, sc->order,
 #ifdef CONFIG_LUMPY_RECLAIM
@@ -1608,10 +1597,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct zone *zone,
 			ISOLATE_INACTIVE,
 #endif
 			zone, 0, file);
-=======
-		nr_taken = isolate_pages_global(nr_to_scan, &page_list,
-			&nr_scanned, sc->order, reclaim_mode, zone, 0, file);
->>>>>>> v3.0.39
 		zone->pages_scanned += nr_scanned;
 		if (current_is_kswapd())
 			__count_zone_vm_events(PGSCAN_KSWAPD, zone,
@@ -1620,7 +1605,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct zone *zone,
 			__count_zone_vm_events(PGSCAN_DIRECT, zone,
 					       nr_scanned);
 	} else {
-<<<<<<< HEAD
 		nr_taken = mem_cgroup_isolate_pages(nr_to_scan,
 			&page_list, &nr_scanned, sc->order,
 #ifdef CONFIG_LUMPY_RECLAIM
@@ -1631,11 +1615,6 @@ shrink_inactive_list(unsigned long nr_to_scan, struct zone *zone,
 #endif
 			zone, sc->mem_cgroup,
 			0, file);
-=======
-		nr_taken = mem_cgroup_isolate_pages(nr_to_scan, &page_list,
-			&nr_scanned, sc->order, reclaim_mode, zone,
-			sc->mem_cgroup, 0, file);
->>>>>>> v3.0.39
 		/*
 		 * mem_cgroup_isolate_pages() keeps track of
 		 * scanned pages on its own.
@@ -3252,7 +3231,6 @@ static unsigned long rtcc_do_try_to_free_pages(struct zonelist *zonelist, struct
 
 out:
 	delayacct_freepages_end();
-	put_mems_allowed();
 
 	if (sc->nr_reclaimed)
 		return sc->nr_reclaimed;
