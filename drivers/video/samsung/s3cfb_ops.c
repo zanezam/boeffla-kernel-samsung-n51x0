@@ -1563,7 +1563,7 @@ void s3c_fb_update_regs(struct s3cfb_global *fbdev, struct s3c_reg_data *regs)
 	unsigned int new_num_of_win = 0;
 	unsigned int pre_num_of_win = 0;
 	unsigned int shadow_regs = 0;
-	unsigned int clkval = 0;
+
 	memset(&old_fence, 0, sizeof(old_fence));
 
 	for (i = 0; i < pdata->nr_wins; i++) {
@@ -1907,7 +1907,7 @@ static int s3c_fb_set_win_config(struct s3cfb_global *fbdev,
 	struct s3c_reg_data *regs;
 	struct sync_fence *fence;
 	struct sync_pt *pt;
-	int fd;
+	int fd = 0;
 
 	if (fbdev->support_fence == FENCE_SUPPORT)
 	fd = get_unused_fd();
