@@ -163,7 +163,6 @@ int s3c_adc_start(struct s3c_adc_client *client,
 
 	BUG_ON(!adc);
 
-<<<<<<< HEAD
 	if (client->is_ts && adc->ts_pend)
 		return -EAGAIN;
 
@@ -177,14 +176,6 @@ int s3c_adc_start(struct s3c_adc_client *client,
 	client->convert_cb = s3c_convert_done;
 	client->wait = pwake;
 	client->result = -1;
-=======
-	spin_lock_irqsave(&adc->lock, flags);
-
-	if (client->is_ts && adc->ts_pend) {
-		spin_unlock_irqrestore(&adc->lock, flags);
-		return -EAGAIN;
-	}
->>>>>>> v3.0.38
 
 	client->channel = channel;
 	client->nr_samples = nr_samples;

@@ -316,11 +316,7 @@ static enum skb_state defer_bh(struct usbnet *dev, struct sk_buff *skb,
 		struct sk_buff_head *list, enum skb_state state)
 {
 	unsigned long		flags;
-<<<<<<< HEAD
-	enum skb_state		old_state;
-=======
 	enum skb_state 		old_state;
->>>>>>> v3.0.38
 	struct skb_data *entry = (struct skb_data *) skb->cb;
 
 	spin_lock_irqsave(&list->lock, flags);
@@ -408,10 +404,7 @@ static int rx_submit (struct usbnet *dev, struct urb *urb, gfp_t flags)
 			tasklet_schedule (&dev->bh);
 			break;
 		case 0:
-<<<<<<< HEAD
 			usb_mark_last_busy(dev->udev);
-=======
->>>>>>> v3.0.38
 			__usbnet_queue_skb(&dev->rxq, skb, rx_start);
 		}
 	} else {
@@ -533,11 +526,7 @@ block:
 
 	if (urb) {
 		if (netif_running (dev->net) &&
-<<<<<<< HEAD
-		    !test_bit(EVENT_RX_HALT, &dev->flags) &&
-=======
 		    !test_bit (EVENT_RX_HALT, &dev->flags) &&
->>>>>>> v3.0.38
 		    state != unlink_start) {
 			rx_submit (dev, urb, GFP_ATOMIC);
 			usb_mark_last_busy(dev->udev);

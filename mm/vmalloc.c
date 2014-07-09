@@ -1275,15 +1275,11 @@ static void setup_vmalloc_vm(struct vm_struct *vm, struct vmap_area *va,
 	vm->addr = (void *)va->va_start;
 	vm->size = va->va_end - va->va_start;
 	vm->caller = caller;
-<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_VMALLOC
 	vm->pid = current->pid;
 	vm->task_name = current->comm;
 #endif
-	va->private = vm;
-=======
 	va->vm = vm;
->>>>>>> v3.0.38
 	va->flags |= VM_VM_AREA;
 }
 
