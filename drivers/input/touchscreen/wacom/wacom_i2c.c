@@ -1358,7 +1358,7 @@ static void wacom_init_abs_params(struct wacom_i2c *wac_i2c)
 	pressure = wac_i2c->wac_feature->pressure_max;
 	max_x = wac_i2c->wac_feature->x_max;
 	max_y = wac_i2c->wac_feature->y_max;
-#ifdef CONFIG_MACH_P4NOTE
+#ifdef CONFIG_MACH_KONA
 	min_x = WACOM_POSX_OFFSET;
 	min_y = WACOM_POSY_OFFSET;
 	pressure = WACOM_MAX_PRESSURE;
