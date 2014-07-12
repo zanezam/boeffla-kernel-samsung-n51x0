@@ -1,17 +1,26 @@
-From 6254a62824c4c24185991a01a306412ae415dbdb Mon Sep 17 00:00:00 2001
+From b6e6436ad96acbb200064df783be879ce7d1cad6 Mon Sep 17 00:00:00 2001
 From: ZaneZam <cyxman@yahoo.com>
-Date: Sun, 6 Jul 2014 16:42:58 +0200
+Date: Sun, 13 Jul 2014 01:50:29 +0200
 Subject: [PATCH] init.rc patch
 
 ---
- init.rc | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ init.rc | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
 diff --git a/init.rc b/init.rc
-index d419973..3dc1a97 100755
+index d419973..d396980 100755
 --- a/init.rc
 +++ b/init.rc
-@@ -69,9 +69,12 @@ loglevel 3
+@@ -30,6 +30,8 @@ on early-init
+ 
+ on init
+ 
++setenforce 0
++setprop ro.boot.selinux 0
+ sysclktz 0
+ 
+ loglevel 3
+@@ -69,9 +71,12 @@ loglevel 3
  
      # See storage config details at http://source.android.com/tech/storage/
      mkdir /mnt/shell 0750 shell shell
@@ -26,7 +35,7 @@ index d419973..3dc1a97 100755
      # Directory for putting things only root should see.
      mkdir /mnt/secure 0700 root root
      # Create private mountpoint so we can MS_MOVE from staging
-@@ -147,6 +150,10 @@ loglevel 3
+@@ -147,6 +152,10 @@ loglevel 3
  # This is needed by any process that uses socket tagging.
      chmod 0644 /dev/xt_qtaguid
  
@@ -37,7 +46,7 @@ index d419973..3dc1a97 100755
  on fs
  # mount mtd partitions
      # Mount /system rw first to give the filesystem a chance to save a checkpoint
-@@ -732,13 +739,6 @@ service powersnd /system/bin/samsungpowersoundplay
+@@ -732,13 +741,6 @@ service powersnd /system/bin/samsungpowersoundplay
       disabled
       oneshot
  
@@ -51,7 +60,7 @@ index d419973..3dc1a97 100755
  service installd /system/bin/installd
      class main
      socket installd stream 600 system system
-@@ -824,3 +824,10 @@ service drsd /system/bin/drsd
+@@ -824,3 +826,10 @@ service drsd /system/bin/drsd
  
  on property:sys.boot_completed=1
      selinux_restore -e
