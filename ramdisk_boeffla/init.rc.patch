@@ -1,19 +1,22 @@
-From 0337640c5be4056e121f6b5c490a9a5e9df17d54 Mon Sep 17 00:00:00 2001
+From 6254a62824c4c24185991a01a306412ae415dbdb Mon Sep 17 00:00:00 2001
 From: ZaneZam <cyxman@yahoo.com>
 Date: Sun, 6 Jul 2014 16:42:58 +0200
 Subject: [PATCH] init.rc patch
 
 ---
- init.rc | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ init.rc | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/init.rc b/init.rc
-index d419973..aa1f87e 100755
+index d419973..3dc1a97 100755
 --- a/init.rc
 +++ b/init.rc
-@@ -71,7 +71,10 @@ loglevel 3
+@@ -69,9 +69,12 @@ loglevel 3
+ 
+     # See storage config details at http://source.android.com/tech/storage/
      mkdir /mnt/shell 0750 shell shell
-     mkdir /mnt/media_rw 0700 media_rw media_rw
+-    mkdir /mnt/media_rw 0700 media_rw media_rw
++    mkdir /mnt/media_rw 0750 media_rw media_rw
      mkdir /storage 0751 root sdcard_r
 -        
 +
