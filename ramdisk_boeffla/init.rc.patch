@@ -1,17 +1,27 @@
-From 179fdc4febaec17496e1237eedc27b2e7a1c3751 Mon Sep 17 00:00:00 2001
+From 7106e1c7b64ee966e3e37fa2be471683050a5920 Mon Sep 17 00:00:00 2001
 From: ZaneZam <cyxman@yahoo.com>
 Date: Sat, 17 May 2014 19:44:02 +0200
 Subject: [PATCH] init.rc patch
 
 ---
- init.rc | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ init.rc | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/init.rc b/init.rc
-index 83a554c..ed99354 100755
+index 83a554c..a2bccb0 100755
 --- a/init.rc
 +++ b/init.rc
-@@ -784,13 +784,6 @@ service powersnd /system/bin/samsungpowersoundplay
+@@ -64,6 +64,9 @@ loglevel 3
+     mkdir /mnt/shell 0750 shell shell
+     mkdir /storage 0050 root sdcard_r
+ 
++    # Create mountpoint so Dalvik can mark as slave in zygotes.
++    mount tmpfs tmpfs /storage mode=0050,uid=0,gid=1028
++
+     # Directory for putting things only root should see.
+     mkdir /mnt/secure 0700 root root
+     # Create private mountpoint so we can MS_MOVE from staging
+@@ -784,13 +787,6 @@ service powersnd /system/bin/samsungpowersoundplay
      disabled
      oneshot
  
@@ -25,7 +35,7 @@ index 83a554c..ed99354 100755
  service installd /system/bin/installd
      class main
      socket installd stream 600 system system
-@@ -875,3 +868,10 @@ service icd /system/bin/icd
+@@ -875,3 +871,10 @@ service icd /system/bin/icd
  on property:init.svc.media=restarting
      exec icd_check
      start icd
