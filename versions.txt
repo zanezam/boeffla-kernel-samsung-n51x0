@@ -1,2 +1,3 @@
 v1.0-beta1-Samsung-n5100-s47:	29.05.2014
 v1.0-beta2-Samsung-n5100-s47:	22.06.2014
+v1.0-Samsung-n5100-s47:	16.07.2014
