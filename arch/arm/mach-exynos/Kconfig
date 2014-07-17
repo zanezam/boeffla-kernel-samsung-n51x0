@@ -2120,6 +2120,12 @@ config MACH_GD2_SENSOR
 	  CM36651 / CAPELLA
 	  
 
+config INTELLI_PLUG
+	bool "Enable intelli-plug cpu hotplug driver"
+	default n
+	help
+	  Generic Intelli-plug cpu hotplug driver for ARM SOCs
+
 config CHARGE_LEVEL
 	bool "Charge level interface"
 	default y
