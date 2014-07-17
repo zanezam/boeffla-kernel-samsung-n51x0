@@ -90,11 +90,6 @@ static int irda_fw_update(struct ir_remocon_data *ir_data)
 	}
 	ret = buf_ir_test[2] << 8 | buf_ir_test[3];
 
-	if (ret == 0xffff) {
-		printk(KERN_INFO "%s: DUMMY PASS!", __func__);
-		return ret;
-	}
-
 	if ((ret != FW_VERSION) || (retry_count != 0)) {
 		printk(KERN_INFO "2. %s: chip : %04x, bin : %04x, need update!\n",
 						__func__, ret, FW_VERSION);
