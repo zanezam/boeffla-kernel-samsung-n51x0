@@ -43,6 +43,14 @@ extern int s3c_gpio_slp_setpull_updown(unsigned int pin, unsigned int config);
  */
 static struct gpio_init_data kona_init_gpios[] = {
 
+#if defined(CONFIG_MACH_KONALTE_USA_ATT)
+
+	{EXYNOS4_GPA1(0), S3C_GPIO_INPUT, S3C_GPIO_SETPIN_NONE,
+	S3C_GPIO_PULL_DOWN, S5P_GPIO_DRVSTR_LV1},/* 3G : AP_RXD LTE : NC */
+	{EXYNOS4_GPA1(1), S3C_GPIO_INPUT, S3C_GPIO_SETPIN_NONE,
+	S3C_GPIO_PULL_DOWN, S5P_GPIO_DRVSTR_LV1}, /* 3G : AP_TXD LTE : NC */
+#endif
+
 	{EXYNOS4_GPA1(4), S3C_GPIO_INPUT, S3C_GPIO_SETPIN_NONE,
 		S3C_GPIO_PULL_DOWN, S5P_GPIO_DRVSTR_LV1},	/* NC */
 	{EXYNOS4_GPA1(5), S3C_GPIO_INPUT, S3C_GPIO_SETPIN_NONE,
@@ -209,6 +217,11 @@ static struct gpio_init_data kona_init_gpios[] = {
 	/* GPIO_AP2MDM_PMIC_RESET_N */
 	{EXYNOS4_GPL0(0),
 	 S3C_GPIO_OUTPUT, S3C_GPIO_SETPIN_NONE, S3C_GPIO_PULL_UP, S5P_GPIO_DRVSTR_LV4},
+#endif
+
+#if defined(CONFIG_MACH_KONALTE_USA_ATT)
+	{EXYNOS4_GPY2(1), S3C_GPIO_INPUT, S3C_GPIO_SETPIN_NONE,
+	S3C_GPIO_PULL_DOWN, S5P_GPIO_DRVSTR_LV1}, /* NC */
 #endif
 };
 

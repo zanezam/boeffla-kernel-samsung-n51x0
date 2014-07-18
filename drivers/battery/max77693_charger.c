@@ -1357,9 +1357,17 @@ static void max77693_softreg_work(struct work_struct *work)
 	u8 mu_st2, vbvolt;
 	u8 cnfg_09;
 	u8 reg_data;
+#if defined(CONFIG_MACH_KONALTE_USA_ATT)
+	int cable_type_test = 0;
+#endif
 	int in_curr = 0;
 	pr_debug("%s\n", __func__);
 
+#if defined(CONFIG_MACH_KONALTE_USA_ATT)
+	cable_type_test = max77693_get_cable_type(chg_data);
+	if (cable_type_test == POWER_SUPPLY_TYPE_USB)
+		return;
+#endif
 	mutex_lock(&chg_data->ops_lock);
 
 	max77693_read_reg(chg_data->max77693->i2c,
@@ -1739,6 +1747,9 @@ static irqreturn_t max77693_charger_irq(int irq, void *data)
 	u8 dtls_00, thm_dtls, chgin_dtls;
 	u8 dtls_01, chg_dtls, bat_dtls;
 	u8 mu_st2, vbvolt;
+#if defined(CONFIG_MACH_KONALTE_USA_ATT)
+	int cable_type_test = 0;
+#endif
 	pr_info("%s: irq(%d)\n", __func__, irq);
 
 	mutex_lock(&chg_data->irq_lock);
@@ -1804,6 +1815,14 @@ static irqreturn_t max77693_charger_irq(int irq, void *data)
 #endif
 		pr_info("%s: abnormal power state: chgin(%d), vb(%d), chg(%d)\n",
 					__func__, chgin_dtls, vbvolt, chg_dtls);
+#if defined(CONFIG_MACH_KONALTE_USA_ATT)
+		cable_type_test = max77693_get_cable_type(chg_data);
+			if (cable_type_test == POWER_SUPPLY_TYPE_USB)
+			{
+				chg_data->soft_reg_state = false;
+				goto skip_softreg_usb;
+			}
+#endif
 
 		/* set soft regulation progress */
 		chg_data->soft_reg_ing = true;
@@ -1819,6 +1838,10 @@ static irqreturn_t max77693_charger_irq(int irq, void *data)
 		schedule_delayed_work(&chg_data->softreg_work,
 				msecs_to_jiffies(SW_REG_STEP_DELAY));
 	}
+#if defined(CONFIG_MACH_KONALTE_USA_ATT)
+	skip_softreg_usb:
+#endif
+
 #endif
 
 	cancel_delayed_work(&chg_data->update_work);
