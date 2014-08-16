@@ -22,6 +22,8 @@
 
 # *********************************************************
 
+# Disable knox if existing
+pm disable com.sec.knox.seandroid
 
 # define file paths
 BOEFFLA_DATA_PATH="$SD_PATH/boeffla-kernel-data"
