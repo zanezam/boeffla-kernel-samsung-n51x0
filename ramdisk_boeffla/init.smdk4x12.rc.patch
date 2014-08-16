@@ -1,0 +1,25 @@
+From 5bdf14dfe200923b36df7c3d7330a0d5adbf85c3 Mon Sep 17 00:00:00 2001
+From: ZaneZam <cyxman@yahoo.com>
+Date: Sat, 16 Aug 2014 17:03:17 +0200
+Subject: [PATCH] Disable ro.securestorage.knox
+
+---
+ init.smdk4x12.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init.smdk4x12.rc b/init.smdk4x12.rc
+index 8446f8f..cd6dfd9 100755
+--- a/init.smdk4x12.rc
++++ b/init.smdk4x12.rc
+@@ -169,7 +169,7 @@ on boot
+     setprop ro.product.device smdk4x12
+     setprop ro.radio.noril yes
+ 	stop ril-daemon
+-    setprop ro.securestorage.knox true
++    setprop ro.securestorage.knox false
+ 
+ # mobicore
+     mkdir /data/app/mcRegistry 0775 system system
+-- 
+1.8.4.5
+
