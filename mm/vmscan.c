@@ -1359,12 +1359,12 @@ static int too_many_isolated(struct zone *zone, int file,
 {
 	unsigned long inactive, isolated;
 
-#ifdef CONFIG_ZRAM_FOR_ANDROID
-	if(get_soft_reclaim_status() == 1)
-	{
-		return 0;
-	}
-#endif
+// #ifdef CONFIG_ZRAM_FOR_ANDROID
+//	if(get_soft_reclaim_status() == 1)
+//	{
+//		return 0;
+//	}
+// #endif
 
 	if (current_is_kswapd())
 		return 0;
@@ -2171,11 +2171,11 @@ static bool shrink_zones(int priority, struct zonelist *zonelist,
 {
 	struct zoneref *z;
 	struct zone *zone;
-#ifdef CONFIG_ZRAM_FOR_ANDROID
-	unsigned long nr_soft_reclaimed = 0;
-#else
+// #ifdef CONFIG_ZRAM_FOR_ANDROID
+//	unsigned long nr_soft_reclaimed = 0;
+// #else
 	unsigned long nr_soft_reclaimed;
-#endif
+// #endif
 	unsigned long nr_soft_scanned;
 	bool aborted_reclaim = false;
 
@@ -2214,11 +2214,11 @@ static bool shrink_zones(int priority, struct zonelist *zonelist,
 			 * and balancing, not for a memcg's limit.
 			 */
 			nr_soft_scanned = 0;
-#ifndef CONFIG_ZRAM_FOR_ANDROID
+// #ifndef CONFIG_ZRAM_FOR_ANDROID
 			nr_soft_reclaimed = mem_cgroup_soft_limit_reclaim(zone,
 						sc->order, sc->gfp_mask,
 						&nr_soft_scanned);
-#endif
+// #endif
 			sc->nr_reclaimed += nr_soft_reclaimed;
 			sc->nr_scanned += nr_soft_scanned;
 			/* need some check for avoid more shrink_zone() */
@@ -2377,11 +2377,11 @@ unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
 		.may_writepage = !laptop_mode,
 		.nr_to_reclaim = SWAP_CLUSTER_MAX,
 		.may_unmap = 1,
-#ifdef CONFIG_ZRAM_FOR_ANDROID
-		.may_swap = 0,
-#else
+// #ifdef CONFIG_ZRAM_FOR_ANDROID
+//		.may_swap = 0,
+// #else
 		.may_swap = 1,
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
+// #endif /* CONFIG_ZRAM_FOR_ANDROID */
 		.order = order,
 		.mem_cgroup = NULL,
 		.nodemask = nodemask,
@@ -2595,20 +2595,20 @@ static unsigned long balance_pgdat(pg_data_t *pgdat, int order,
 	int end_zone = 0;	/* Inclusive.  0 = ZONE_DMA */
 	unsigned long total_scanned;
 	struct reclaim_state *reclaim_state = current->reclaim_state;
-#ifdef CONFIG_ZRAM_FOR_ANDROID
-	unsigned long nr_soft_reclaimed = 0;
-#else
+// #ifdef CONFIG_ZRAM_FOR_ANDROID
+// 	unsigned long nr_soft_reclaimed = 0;
+// #else
 	unsigned long nr_soft_reclaimed;
-#endif
+// #endif
 	unsigned long nr_soft_scanned;
 	struct scan_control sc = {
 		.gfp_mask = GFP_KERNEL,
 		.may_unmap = 1,
-#ifdef CONFIG_ZRAM_FOR_ANDROID
-		.may_swap = 0,
-#else
+// #ifdef CONFIG_ZRAM_FOR_ANDROID
+// 		.may_swap = 0,
+// #else
 		.may_swap = 1,
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
+// #endif /* CONFIG_ZRAM_FOR_ANDROID */
 		/*
 		 * kswapd doesn't want to be bailed out while reclaim. because
 		 * we want to put equal scanning pressure on each zone.
@@ -3304,11 +3304,11 @@ static int __zone_reclaim(struct zone *zone, gfp_t gfp_mask, unsigned int order)
 	struct scan_control sc = {
 		.may_writepage = !!(zone_reclaim_mode & RECLAIM_WRITE),
 		.may_unmap = !!(zone_reclaim_mode & RECLAIM_SWAP),
-#ifdef CONFIG_ZRAM_FOR_ANDROID
-		.may_swap = 0,
-#else
+// #ifdef CONFIG_ZRAM_FOR_ANDROID
+// 		.may_swap = 0,
+// #else
 		.may_swap = 1,
-#endif /* CONFIG_ZRAM_FOR_ANDROID */
+// #endif /* CONFIG_ZRAM_FOR_ANDROID */
 		.nr_to_reclaim = max_t(unsigned long, nr_pages,
 				       SWAP_CLUSTER_MAX),
 		.gfp_mask = gfp_mask,
