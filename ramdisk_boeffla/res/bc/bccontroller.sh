@@ -1157,7 +1157,10 @@ if [ "apply_usb_ethernet" == "$1" ]; then
 	if [ "1" == "$2" ]; then
 		insmod $LIBPATH/asix.ko
 		netcfg eth0 up
-		netcfg eth0 dhcp &
+		dhcpcd eth0
+		DNS=`getprop net.eth0.dns1`
+		ndc resolver setifdns eth0 "" $DNS  8.8.8.8
+		ndc resolver setdefaultif eth0
 	fi
 
 	if [ "0" == "$2" ]; then
