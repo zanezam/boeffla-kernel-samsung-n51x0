@@ -193,7 +193,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= arm
-CROSS_COMPILE	?= /home/zanezam/Werkstatt/entwicklung/toolchains/android-toolchain-linaro-c83/arm-linux-gnueabi-linaro_4.9.1-2014.07/bin/arm-linux-gnueabi-
+CROSS_COMPILE	?= /home/zanezam/Werkstatt/entwicklung/toolchains/android-toolchain-linaro-c83/arm-linux-gnueabi-linaro_4.9.2-2014.08/bin/arm-linux-gnueabi-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
@@ -563,7 +563,7 @@ all: vmlinux
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
-KBUILD_CFLAGS	+= -O3
+KBUILD_CFLAGS	+= -O3 -fmodulo-sched -fmodulo-sched-allow-regmoves -fno-tree-vectorize
 endif
 
 ifdef CONFIG_CC_CHECK_WARNING_STRICTLY
