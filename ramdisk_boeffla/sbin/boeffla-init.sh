@@ -1,40 +1,31 @@
 #!/system/bin/sh
+
+# *****************************
+# n51x0 Samsung 4.2.2 version
 #
-# n51x0 version
-#
+# V0.1
+# *****************************
 
 # define basic kernel configuration
-# *********************************************************
+	# path to internal sd memory
+	SD_PATH="/data/media/0"
 
-# Kernel type
-	# KERNEL="SAM1"		# Samsung old bootanimation / zRam concept
-	KERNEL="SAM2"		# Samsung new bootanimation / zRam concept
-	# KERNEL="CM"		# Cyanogenmod+Omni
-
-# path to internal sd memory
-	# SD_PATH="/data/media"			# JB 4.1
-	 SD_PATH="/data/media/0"		# JB 4.2, 4.3, 4.4
-
-# block devices
+	# block devices
 	SYSTEM_DEVICE="/dev/block/mmcblk0p9"
 	CACHE_DEVICE="/dev/block/mmcblk0p8"
 	DATA_DEVICE="/dev/block/mmcblk0p12"
 
-# *********************************************************
-
-
 # define file paths
-BOEFFLA_DATA_PATH="$SD_PATH/boeffla-kernel-data"
-BOEFFLA_LOGFILE="$BOEFFLA_DATA_PATH/boeffla-kernel.log"
-BOEFFLA_STARTCONFIG="/data/.boeffla/startconfig"
-BOEFFLA_STARTCONFIG_DONE="/data/.boeffla/startconfig_done"
-CWM_RESET_ZIP="boeffla-config-reset-v2.zip"
-INITD_ENABLER="/data/.boeffla/enable-initd"
-BUSYBOX_ENABLER="/data/.boeffla/enable-busybox"
-FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
+	BOEFFLA_DATA_PATH="$SD_PATH/boeffla-kernel-data"
+	BOEFFLA_LOGFILE="$BOEFFLA_DATA_PATH/boeffla-kernel.log"
+	BOEFFLA_STARTCONFIG="/data/.boeffla/startconfig"
+	BOEFFLA_STARTCONFIG_DONE="/data/.boeffla/startconfig_done"
+	CWM_RESET_ZIP="boeffla-config-reset-v2.zip"
+	INITD_ENABLER="/data/.boeffla/enable-initd"
+	BUSYBOX_ENABLER="/data/.boeffla/enable-busybox"
+	FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
 
-
-# If not yet exists, create a boeffla-kernel-data folder on sdcard 
+# If not yet existing, create a boeffla-kernel-data folder on sdcard 
 # which is used for many purposes,
 # always set permissions and owners correctly for pathes and files
 	if [ ! -d "$BOEFFLA_DATA_PATH" ] ; then
@@ -109,68 +100,34 @@ FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
 	mount -o remount,ro rootfs /
 
 # remove any obsolete Boeffla-Config V2 startconfig done file
-/sbin/busybox rm -f $BOEFFLA_STARTCONFIG_DONE
+	/sbin/busybox rm -f $BOEFFLA_STARTCONFIG_DONE
 
-# Custom boot animation support only for Samsung Kernels,
-# boeffla sound change delay changed only for Samsung Kernels
-	if [ "SAM1" == "$KERNEL" ]; then
-	
-		# check whether custom boot animation is available to be played
-		if [ -f /data/local/bootanimation.zip ] || [ -f /system/media/bootanimation.zip ]; then
-				echo $(date) Playing custom boot animation >> $BOEFFLA_LOGFILE
-				/system/bin/bootanimation &
-		else
-				echo $(date) Playing Samsung stock boot animation >> $BOEFFLA_LOGFILE
-				/system/bin/samsungani &
-		fi
+# Custom boot animation support
+	# Implementation 1
+	#if [ -f /data/local/bootanimation.zip ] || [ -f /system/media/bootanimation.zip ]; then
+	#		echo $(date) Playing custom boot animation >> $BOEFFLA_LOGFILE
+	#		/system/bin/bootanimation &
+	#else
+	#		echo $(date) Playing Samsung stock boot animation >> $BOEFFLA_LOGFILE
+	#		/system/bin/samsungani &
+	#fi
 
-		# set boeffla sound change delay to 200 ms
-		echo "200000" > /sys/class/misc/boeffla_sound/change_delay
-		echo $(date) Boeffla-Sound change delay set to 200 ms >> $BOEFFLA_LOGFILE
+	# Implementation 2
+	if [ -f /data/local/bootanimation.zip ] || [ -f /system/media/bootanimation.zip ]; then
+			echo $(date) Playing custom boot animation >> $BOEFFLA_LOGFILE
+			/sbin/bootanimation &
+	else
+			echo $(date) Playing Samsung stock boot animation >> $BOEFFLA_LOGFILE
+			/system/bin/bootanimation &
 	fi
 
-	if [ "SAM2" == "$KERNEL" ]; then
-	
-		# check whether custom boot animation is available to be played
-		if [ -f /data/local/bootanimation.zip ] || [ -f /system/media/bootanimation.zip ]; then
-				echo $(date) Playing custom boot animation >> $BOEFFLA_LOGFILE
-				/sbin/bootanimation &
-		else
-				echo $(date) Playing Samsung stock boot animation >> $BOEFFLA_LOGFILE
-				/system/bin/bootanimation &
-		fi
+# boeffla sound change delay (only for Samsung Kernels)
+	echo "200000" > /sys/class/misc/boeffla_sound/change_delay
+	echo $(date) Boeffla-Sound change delay set to 200 ms >> $BOEFFLA_LOGFILE
 
-		# set boeffla sound change delay to 200 ms
-		echo "200000" > /sys/class/misc/boeffla_sound/change_delay
-		echo $(date) Boeffla-Sound change delay set to 200 ms >> $BOEFFLA_LOGFILE
-	fi
-
-# Set the options which change the stock kernel defaults
-# to Boeffla-Kernel defaults
-
-	echo $(date) Applying Boeffla-Kernel default settings >> $BOEFFLA_LOGFILE
-
-	# Ext4 tweaks default to on
-	/sbin/busybox sync
-	mount -o remount,commit=20,noatime $CACHE_DEVICE /cache
-	/sbin/busybox sync
-	mount -o remount,commit=20,noatime $DATA_DEVICE /data
-	/sbin/busybox sync
-	echo $(date) Ext4 tweaks applied >> $BOEFFLA_LOGFILE
-
-	# Sdcard buffer tweaks default to 256 kb
-	echo 256 > /sys/block/mmcblk0/bdi/read_ahead_kb
-	echo $(date) "SDcard buffer tweaks (256 kb) applied for internal sd memory" >> $BOEFFLA_LOGFILE
-	echo 256 > /sys/block/mmcblk1/bdi/read_ahead_kb
-	echo $(date) "SDcard buffer tweaks (256 kb) applied for external sd memory" >> $BOEFFLA_LOGFILE
-
-	# AC charging rate defaults defaults to 1100 mA
-	echo "1100" > /sys/kernel/charge_levels/charge_level_ac
-	echo $(date) "AC charge rate set to 1100 mA" >> $BOEFFLA_LOGFILE
-
-# init.d support, only if enabled in settings or file in data folder
+# init.d support (enabler only to be considered for CM based roms)
 # (zipalign scripts will not be executed as only exception)
-	if [ "CM" != "$KERNEL" ] || [ -f $INITD_ENABLER ] ; then
+	#if [ -f $INITD_ENABLER ] ; then
 		echo $(date) Execute init.d scripts start >> $BOEFFLA_LOGFILE
 		if cd /system/etc/init.d >/dev/null 2>&1 ; then
 			for file in * ; do
@@ -182,9 +139,9 @@ FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
 			done
 		fi
 		echo $(date) Finished executing init.d scripts >> $BOEFFLA_LOGFILE
-	else
-		echo $(date) init.d script handling by kernel disabled >> $BOEFFLA_LOGFILE
-	fi
+	#else
+	#	echo $(date) init.d script handling by kernel disabled >> $BOEFFLA_LOGFILE
+	#fi
 
 # Now wait for the rom to finish booting up
 # (by checking for the android acore process)
@@ -199,12 +156,18 @@ FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
 	echo $(date) Initialize sound system... >> $BOEFFLA_LOGFILE
 	/sbin/tinyplay /res/misc/silence.wav -D 0 -d 0 -p 880
 
-# Disable Samsung standard zRam implementation if new concept Samsung kernel
-	if [ "SAM2" == "$KERNEL" ]; then
-		busybox swapoff /dev/block/zram0
-		echo "1" > /sys/block/zram0/reset
-		echo "0" > /sys/block/zram0/disksize
-	fi
+# Deactivate Samsung standard zRam implementation, if any
+	busybox swapoff /dev/block/zram0
+	echo "1" > /sys/block/zram0/reset
+	echo "0" > /sys/block/zram0/disksize
+	echo $(date) Samsung standard zRam deactivated >> $BOEFFLA_LOGFILE
+
+# Apply Boeffla-Kernel default settings part 1 (the ones needed for config app baselining)
+
+	# Set AC charging rate default
+	echo "1100" > /sys/kernel/charge_levels/charge_level_ac
+
+	echo $(date) Boeffla-Kernel default settings part 1 applied >> $BOEFFLA_LOGFILE
 
 # Interaction with Boeffla-Config app V2
 	# save original stock values for selected parameters
@@ -217,12 +180,52 @@ FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
 	cat /sys/module/lowmemorykiller/parameters/minfree > /dev/bk_orig_minfree
 	/sbin/busybox lsmod > /dev/bk_orig_modules
 
-	# if there is a startconfig placed by Boeffla-Config V2 app, execute it
+	# if there is a startconfig placed by Boeffla-Config V2 app, execute it;
 	if [ -f $BOEFFLA_STARTCONFIG ]; then
 		echo $(date) "Startup configuration found:"  >> $BOEFFLA_LOGFILE
 		cat $BOEFFLA_STARTCONFIG >> $BOEFFLA_LOGFILE
 		. $BOEFFLA_STARTCONFIG
 		echo $(date) Startup configuration applied  >> $BOEFFLA_LOGFILE
+	else
+		# If not, apply Boeffla-Kernel default settings part 2
+		
+		# Ext4 tweaks default to on
+		/sbin/busybox sync
+		mount -o remount,commit=20,noatime $CACHE_DEVICE /cache
+		/sbin/busybox sync
+		mount -o remount,commit=20,noatime $DATA_DEVICE /data
+		/sbin/busybox sync
+
+		# Sdcard buffer tweaks default to 256 kb
+		echo 256 > /sys/block/mmcblk0/bdi/read_ahead_kb
+		echo 256 > /sys/block/mmcblk1/bdi/read_ahead_kb
+
+		# Enable total 1 GB zRam on 4 devices as default
+		# busybox swapoff /dev/block/zram0
+		# busybox swapoff /dev/block/zram1
+		# busybox swapoff /dev/block/zram2
+		# busybox swapoff /dev/block/zram3
+		# echo "1" > /sys/block/zram0/reset
+		# echo "1" > /sys/block/zram1/reset
+		# echo "1" > /sys/block/zram2/reset
+		# echo "1" > /sys/block/zram3/reset
+		# echo "262144000" > /sys/block/zram0/disksize
+		# echo "262144000" > /sys/block/zram1/disksize
+		# echo "262144000" > /sys/block/zram2/disksize
+		# echo "262144000" > /sys/block/zram3/disksize
+		# busybox mkswap /dev/block/zram0
+		# busybox mkswap /dev/block/zram1
+		# busybox mkswap /dev/block/zram2
+		# busybox mkswap /dev/block/zram3
+		# busybox swapon -p 2 /dev/block/zram0
+		# busybox swapon -p 2 /dev/block/zram1
+		# busybox swapon -p 2 /dev/block/zram2
+		# busybox swapon -p 2 /dev/block/zram3
+		# busybox sleep 0.5s
+		# busybox sync
+		# echo $(date) Boeffla default zRam activated >> $BOEFFLA_LOGFILE
+
+		echo $(date) Boeffla-Kernel default settings part 2 applied >> $BOEFFLA_LOGFILE
 	fi
 	
 # Turn off debugging for certain modules
@@ -266,7 +269,7 @@ FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
 		/system/bin/sh /system/etc/install-recovery.sh
 
 		/sbin/busybox sync
-
+		
 		mount -o remount,ro -t ext4 $SYSTEM_DEVICE /system
 		echo $(date) Auto root: su installed >> $BOEFFLA_LOGFILE
 
@@ -299,6 +302,9 @@ FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
 
 		echo $(date) CWM reset zip copied >> $BOEFFLA_LOGFILE
 	fi
+
+# Disable knox
+	# pm disable com.sec.knox.seandroid
 
 # Finished
 	echo $(date) Boeffla-Kernel initialisation completed >> $BOEFFLA_LOGFILE
