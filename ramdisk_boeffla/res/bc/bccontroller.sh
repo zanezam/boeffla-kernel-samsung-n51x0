@@ -17,8 +17,7 @@ KERNEL_SPECS="n5110;samsung;jb42;http://boeffla.df-kunde.de/zanezam/n5110/boeffl
 KERNEL_FEATURES="-1-2-3-"
 
 # path to kernel libraries
-LIBPATH="/lib/modules"				# Samsung
-#LIBPATH="/system/lib/modules"		# Cyanogenmod+Omni
+LIBPATH="/lib/modules"
 
 # block devices
 SYSTEM_DEVICE="/dev/block/mmcblk0p9"
