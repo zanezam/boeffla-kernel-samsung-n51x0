@@ -125,6 +125,24 @@
 	echo "200000" > /sys/class/misc/boeffla_sound/change_delay
 	echo $(date) Boeffla-Sound change delay set to 200 ms >> $BOEFFLA_LOGFILE
 
+# Apply Boeffla-Kernel default settings
+
+	# Set AC charging rate default
+	echo "1100" > /sys/kernel/charge_levels/charge_level_ac
+
+	# Ext4 tweaks default to on
+	/sbin/busybox sync
+	mount -o remount,commit=20,noatime $CACHE_DEVICE /cache
+	/sbin/busybox sync
+	mount -o remount,commit=20,noatime $DATA_DEVICE /data
+	/sbin/busybox sync
+
+	# Sdcard buffer tweaks default to 256 kb
+	echo 256 > /sys/block/mmcblk0/bdi/read_ahead_kb
+	echo 256 > /sys/block/mmcblk1/bdi/read_ahead_kb
+
+	echo $(date) Boeffla-Kernel default settings applied >> $BOEFFLA_LOGFILE
+
 # init.d support (enabler only to be considered for CM based roms)
 # (zipalign scripts will not be executed as only exception)
 	#if [ -f $INITD_ENABLER ] ; then
@@ -187,19 +205,9 @@
 		. $BOEFFLA_STARTCONFIG
 		echo $(date) Startup configuration applied  >> $BOEFFLA_LOGFILE
 	else
-		# If not, apply Boeffla-Kernel default settings part 2
+		echo $(date) "No startup configuration found"  >> $BOEFFLA_LOGFILE
 		
-		# Ext4 tweaks default to on
-		/sbin/busybox sync
-		mount -o remount,commit=20,noatime $CACHE_DEVICE /cache
-		/sbin/busybox sync
-		mount -o remount,commit=20,noatime $DATA_DEVICE /data
-		/sbin/busybox sync
-
-		# Sdcard buffer tweaks default to 256 kb
-		echo 256 > /sys/block/mmcblk0/bdi/read_ahead_kb
-		echo 256 > /sys/block/mmcblk1/bdi/read_ahead_kb
-
+		# If not, apply default Boeffla-Kernel zRam
 		# Enable total 1 GB zRam on 4 devices as default
 		# busybox swapoff /dev/block/zram0
 		# busybox swapoff /dev/block/zram1
@@ -223,9 +231,8 @@
 		# busybox swapon -p 2 /dev/block/zram3
 		# busybox sleep 0.5s
 		# busybox sync
-		# echo $(date) Boeffla default zRam activated >> $BOEFFLA_LOGFILE
 		# echo "80" > /proc/sys/vm/swappiness
-		echo $(date) Boeffla-Kernel default settings part 2 applied >> $BOEFFLA_LOGFILE
+		# echo $(date) Boeffla default zRam activated >> $BOEFFLA_LOGFILE
 	fi
 	
 # Turn off debugging for certain modules
