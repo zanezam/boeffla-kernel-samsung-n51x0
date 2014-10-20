@@ -4,3 +4,4 @@ v1.0-Samsung-n5110-s47:	16.07.2014
 v1.1-beta1-Samsung-n5110-s47:	19.07.2014
 v1.1-beta2-Samsung-n5110-s47:	18.08.2014
 v1.1-beta3-Samsung-n5110-s47:	03.09.2014
+v1.1-beta4-Samsung-n5110-s47:	20.10.2014
