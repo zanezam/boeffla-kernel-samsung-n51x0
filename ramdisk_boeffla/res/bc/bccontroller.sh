@@ -20,11 +20,11 @@ KERNEL_FEATURES="-1-2-3-"
 LIBPATH="/lib/modules"
 
 # block devices
-SYSTEM_DEVICE="/dev/block/mmcblk0p9"
-CACHE_DEVICE="/dev/block/mmcblk0p8"
-DATA_DEVICE="/dev/block/mmcblk0p12"
-BOOT_DEVICE="/dev/block/mmcblk0p5"
-RADIO_DEVICE="/dev/block/mmcblk0p7"
+SYSTEM_DEVICE="/dev/block/mmcblk0p20"
+CACHE_DEVICE="/dev/block/mmcblk0p19"
+DATA_DEVICE="/dev/block/mmcblk0p21"
+BOOT_DEVICE="/dev/block/mmcblk0p9"
+RADIO_DEVICE="/dev/block/mmcblk0p13"
 RECOVERY_DEVICE="/dev/block/mmcblk0p6"
 
 
