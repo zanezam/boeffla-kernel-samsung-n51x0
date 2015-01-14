@@ -58,7 +58,7 @@ if [ "lov_gpu_freq" == "$1" ]; then
 fi
 
 if [ "lov_eq_gain_profiles" == "$1" ]; then
-	echo "Archis audiophile;Baseland;Bass extreme;Bass treble;Classic;Dance;Eargasm;Metal/Rock;Pleasant;Treble"
+	echo "Archis audiophile;Baseland;Bass extreme;Bass treble;Classic;Dance;Eargasm;Metal/Rock;Pleasant;Treble;Googy"
 	exit 0
 fi
 
@@ -285,6 +285,9 @@ if [ "conf_eq_gains" == "$1" ]; then
 	fi
 	if [ "Metal/Rock" ==  "$2" ]; then
 		echo "4;3;0;-4;3"
+	fi
+	if [ "Googy" ==  "$2" ]; then
+		echo "10;2;-1;2;10"
 	fi
 	exit 0
 fi
