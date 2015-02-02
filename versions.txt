@@ -5,3 +5,4 @@ v2.0-beta4-Samsung-n5120-s47:	03.09.2014
 v2.0-beta5-Samsung-n5120-s47:	20.10.2014
 v2.0-beta6-Samsung-n5120-s47:	05.12.2014
 v2.0-Samsung-n5120-s47:	22.12.2014
+v2.1-Samsung-n5120-s48:	02.02.2015
