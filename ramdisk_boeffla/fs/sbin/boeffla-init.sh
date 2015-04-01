@@ -24,6 +24,7 @@
 	INITD_ENABLER="/data/.boeffla/enable-initd"
 	BUSYBOX_ENABLER="/data/.boeffla/enable-busybox"
 	FRANDOM_ENABLER="/data/.boeffla/enable-frandom"
+	PERMISSIVE_ENABLER="/data/.boeffla/enable-permissive"
 
 # If not yet existing, create a boeffla-kernel-data folder on sdcard 
 # which is used for many purposes,
@@ -304,10 +305,19 @@
 
 	if [ ! -f $CWM_RESET_ZIP_TARGET ]; then
 
+		/sbin/busybox rm $BOEFFLA_DATA_PATH/boeffla-config-reset*
 		/sbin/busybox cp $CWM_RESET_ZIP_SOURCE $CWM_RESET_ZIP_TARGET
 		/sbin/busybox chmod 666 $CWM_RESET_ZIP_TARGET
 
-		echo $(date) CWM reset zip copied >> $BOEFFLA_LOGFILE
+		echo $(date) Recovery reset zip copied >> $BOEFFLA_LOGFILE
+	fi
+
+# If not explicitely configured to permissive, set SELinux to enforcing and restart mpdecision
+	if [ ! -f $PERMISSIVE_ENABLER ]; then
+		echo "1" > /sys/fs/selinux/enforce
+		echo $(date) "SELinux: enforcing" >> $BOEFFLA_LOGFILE
+	else
+		echo $(date) "SELinux: permissive" >> $BOEFFLA_LOGFILE
 	fi
 
 # Disable knox
