@@ -1,31 +1,19 @@
-From 958e1ff830f32e26e4d15c5944a344901026d464 Mon Sep 17 00:00:00 2001
+From 2702446608cd5740b456f6e7d690244f9d5917d2 Mon Sep 17 00:00:00 2001
 From: ZaneZam <cyxman@yahoo.com>
 Date: Sun, 1 Feb 2015 18:07:41 +0100
 Subject: [PATCH] init.rc patch
 
 ---
- init.rc | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ init.rc | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/init.rc b/init.rc
-index c2398c9..0bae5fb 100755
+index c2398c9..97df766 100755
 --- a/init.rc
 +++ b/init.rc
-@@ -30,6 +30,8 @@ on early-init
- 
- on init
-     ffu
-+setenforce 0
-+setprop ro.boot.selinux 0
- sysclktz 0
- 
- loglevel 3
-@@ -58,9 +60,12 @@ loglevel 3
- 
-     # See storage config details at http://source.android.com/tech/storage/
+@@ -60,7 +60,10 @@ loglevel 3
      mkdir /mnt/shell 0750 shell shell
--    mkdir /mnt/media_rw 0700 media_rw media_rw
-+    mkdir /mnt/media_rw 0750 media_rw media_rw
+     mkdir /mnt/media_rw 0700 media_rw media_rw
      mkdir /storage 0751 root sdcard_r
 -        
 +
@@ -35,7 +23,7 @@ index c2398c9..0bae5fb 100755
      # Directory for putting things only root should see.
      mkdir /mnt/secure 0700 root root
      # Create private mountpoint so we can MS_MOVE from staging
-@@ -136,6 +141,10 @@ loglevel 3
+@@ -136,6 +139,10 @@ loglevel 3
  # This is needed by any process that uses socket tagging.
      chmod 0644 /dev/xt_qtaguid
  
@@ -46,7 +34,7 @@ index c2398c9..0bae5fb 100755
  on fs
  # mount mtd partitions
      # Mount /system rw first to give the filesystem a chance to save a checkpoint
-@@ -763,13 +772,6 @@ service powersnd /system/bin/samsungpowersoundplay
+@@ -763,13 +770,6 @@ service powersnd /system/bin/samsungpowersoundplay
       disabled
       oneshot
  
@@ -60,7 +48,7 @@ index c2398c9..0bae5fb 100755
  service installd /system/bin/installd
      class main
      socket installd stream 600 system system
-@@ -883,3 +885,10 @@ service pppoe /system/bin/pppoewrapper
+@@ -883,3 +883,10 @@ service pppoe /system/bin/pppoewrapper
      disabled
      oneshot
  # PPPOE SUPPORT
