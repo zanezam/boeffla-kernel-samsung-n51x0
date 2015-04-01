@@ -41,7 +41,7 @@ index 83a554c..a2bccb0 100755
      start icd
 +
 +# Call Boeffla-Kernel init script
-+service boeffla-init /sbin/boeffla-init.sh
++service boeffla-init /sbin/boeffla-init-starter.sh
 +    class main
 +    user root
 +    group root
