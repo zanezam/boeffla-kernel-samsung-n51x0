@@ -15,7 +15,7 @@
 #include "ump_kernel_interface.h"
 #include "ump_kernel_common.h"
 
-
+#define SKIP_COMPATIBILITY_CHECK
 
 /* ---------------- UMP kernel space API functions follows ---------------- */
 
@@ -213,13 +213,15 @@ _mali_osk_errcode_t _ump_uku_get_api_version( _ump_uk_api_version_s *args )
 	DEBUG_ASSERT_POINTER( args->ctx );
 
 	session_data = (ump_session_data *)args->ctx;
-
+#if !defined(SKIP_COMPATIBILITY_CHECK)
 	/* check compatability */
 	if (args->version == UMP_IOCTL_API_VERSION)
 	{
 		DBG_MSG(3, ("API version set to newest %d (compatible)\n", GET_VERSION(args->version)));
+#endif
 		args->compatible = 1;
 		session_data->api_version = args->version;
+#if !defined(SKIP_COMPATIBILITY_CHECK)
 	}
 	else if (args->version == MAKE_VERSION_ID(1))
 	{
@@ -233,7 +235,7 @@ _mali_osk_errcode_t _ump_uku_get_api_version( _ump_uk_api_version_s *args )
 		args->compatible = 0;
 		args->version = UMP_IOCTL_API_VERSION; /* report our version */
 	}
-
+#endif
 	return _MALI_OSK_ERR_OK;
 }
 
