@@ -42,6 +42,8 @@
 #include <gpu_control.h>
 #endif
 
+#define SKIP_COMPATIBILITY_CHECK
+
 /* Mali GPU memory. Real values come from module parameter or from device specific data */
 unsigned int mali_dedicated_mem_start = 0;
 unsigned int mali_dedicated_mem_size = 0;
@@ -1061,16 +1063,19 @@ _mali_osk_errcode_t _mali_ukk_get_api_version( _mali_uk_get_api_version_s *args 
 	MALI_DEBUG_ASSERT_POINTER(args);
 	MALI_CHECK_NON_NULL(args->ctx, _MALI_OSK_ERR_INVALID_ARGS);
 
+#if !defined(SKIP_COMPATIBILITY_CHECK)
 	/* check compatability */
 	if ( args->version == _MALI_UK_API_VERSION )
 	{
+#endif
 		args->compatible = 1;
+#if !defined(SKIP_COMPATIBILITY_CHECK)
 	}
 	else
 	{
 		args->compatible = 0;
 	}
-
+#endif
 	args->version = _MALI_UK_API_VERSION; /* report our version */
 
 	/* success regardless of being compatible or not */
