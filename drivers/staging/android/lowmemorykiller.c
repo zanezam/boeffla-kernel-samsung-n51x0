@@ -406,7 +406,7 @@ void could_cswap(void)
 	}
 }
 
-inline void enable_soft_reclaim(void)
+extern inline void enable_soft_reclaim(void)
 {
 	atomic_set(&s_reclaim.kcompcached_enable, 1);
 }
@@ -416,12 +416,12 @@ inline void disable_soft_reclaim(void)
 	atomic_set(&s_reclaim.kcompcached_enable, 0);
 }
 
-inline void need_soft_reclaim(void)
+extern inline void need_soft_reclaim(void)
 {
 	atomic_set(&s_reclaim.need_to_reclaim, 1);
 }
 
-inline void cancel_soft_reclaim(void)
+extern inline void cancel_soft_reclaim(void)
 {
 	atomic_set(&s_reclaim.need_to_reclaim, 0);
 }
