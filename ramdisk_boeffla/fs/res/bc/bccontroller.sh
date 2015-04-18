@@ -58,7 +58,7 @@ if [ "lov_gpu_freq" == "$1" ]; then
 fi
 
 if [ "lov_eq_gain_profiles" == "$1" ]; then
-	echo "Archis audiophile;Baseland;Bass extreme;Bass treble;Classic;Dance;Eargasm;Metal/Rock;Pleasant;Treble;Googy"
+	echo "Flat;Archis audiophile;Baseland;Bass extreme;Bass treble;Classic;Dance;Eargasm;Googy;Metal/Rock;Pleasant;Treble"
 	exit 0
 fi
 
@@ -256,6 +256,9 @@ if [ "conf_cpu_volt" == "$1" ]; then
 fi
 
 if [ "conf_eq_gains" == "$1" ]; then
+	if [ "Flat" ==  "$2" ]; then
+		echo "0;0;0;0;0"
+	fi
 	if [ "Archis audiophile" ==  "$2" ]; then
 		echo "8;4;4;2;6"
 	fi
