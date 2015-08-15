@@ -54,7 +54,7 @@ index d419973..c8281ef 100755
      selinux_restore -e
 +
 +# Call Boeffla-Kernel init script
-+service boeffla-init /sbin/boeffla-init-starter.sh
++service boeffla-init /sbin/boeffla-init.sh
 +    class main
 +    user root
 +    group root
