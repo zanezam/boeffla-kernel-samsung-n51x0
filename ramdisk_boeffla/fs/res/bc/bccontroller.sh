@@ -1476,18 +1476,20 @@ fi
 
 if [ "action_fstrim" == "$1" ]; then
 	echo -e "Trim /data"
-	/res/bc/fstrim -v /data
+	fstrim -v /data
+	/sbin/busybox fstrim -v /data
 	echo -e ""
 	echo -e "Trim /cache"
-	/res/bc/fstrim -v /cache
+	fstrim -v /cache
+	/sbin/busybox fstrim -v /cache
 	echo -e ""
 	echo -e "Trim /system"
-	/res/bc/fstrim -v /system
+	fstrim -v /system
+	/sbin/busybox fstrim -v /system
 	echo -e ""
 	busybox sync
 	exit 0
 fi
-
 
 if [ "flash_kernel" == "$1" ]; then
 	busybox dd if=$2 of=$BOOT_DEVICE
