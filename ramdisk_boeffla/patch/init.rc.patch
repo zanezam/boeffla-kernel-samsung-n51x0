@@ -54,7 +54,7 @@ index c2398c9..6151e5b 100755
  # PPPOE SUPPORT
 +
 +# Call Boeffla-Kernel init script
-+service boeffla-init /sbin/boeffla-init-starter.sh
++service boeffla-init /sbin/boeffla-init.sh
 +    class main
 +    user root
 +    group root
